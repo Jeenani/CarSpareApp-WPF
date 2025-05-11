@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="75e6875c5bd745b9bc04671069f3412e" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="CarSpareBaseModel.Cars" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Deliveries" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Part_Categories" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Spare_Parts" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Stock_Availability" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Storages" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarSpareBaseModel.Suppliers" Width="1.5" PointX="2.875" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="CarSpareBaseModel.FK__Deliverie__part___4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="CarSpareBaseModel.FK__Deliverie__suppl__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="CarSpareBaseModel.FK__Spare_Par__Categ__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="CarSpareBaseModel.FK__Stock_Ava__part___5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="CarSpareBaseModel.FK__Stock_Ava__stora__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="CarSpareBaseModel.Compatibility" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

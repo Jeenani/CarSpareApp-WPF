@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище CarSpareBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="car_ID" />
+          </Key>
+          <Property Name="car_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="make" Type="varchar" MaxLength="50" />
+          <Property Name="model" Type="varchar" MaxLength="50" />
+          <Property Name="yearCreation" Type="date" />
+          <Property Name="engine" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="transmission" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="body_Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Compatibility">
+          <Key>
+            <PropertyRef Name="car_ID" />
+            <PropertyRef Name="part_ID" />
+          </Key>
+          <Property Name="car_ID" Type="int" Nullable="false" />
+          <Property Name="part_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deliveries">
+          <Key>
+            <PropertyRef Name="delivery_ID" />
+          </Key>
+          <Property Name="delivery_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplier_ID" Type="int" />
+          <Property Name="part_ID" Type="int" />
+          <Property Name="dateDeliveliry" Type="date" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="unit_Price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Part_Categories">
+          <Key>
+            <PropertyRef Name="category_ID" />
+          </Key>
+          <Property Name="category_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryName" Type="varchar" MaxLength="50" />
+          <Property Name="categoryDescription" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Spare_Parts">
+          <Key>
+            <PropertyRef Name="part_ID" />
+          </Key>
+          <Property Name="part_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_ID" Type="int" />
+          <Property Name="partName" Type="varchar" MaxLength="100" />
+          <Property Name="partDescription" Type="varchar" MaxLength="200" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="manufacturer" Type="varchar" MaxLength="50" />
+          <Property Name="warranty_Months" Type="int" />
+        </EntityType>
+        <EntityType Name="Stock_Availability">
+          <Key>
+            <PropertyRef Name="Stock_ID" />
+          </Key>
+          <Property Name="Stock_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="part_ID" Type="int" />
+          <Property Name="storage_ID" Type="int" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Storages">
+          <Key>
+            <PropertyRef Name="storage_ID" />
+          </Key>
+          <Property Name="storage_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="houseName" Type="varchar" MaxLength="100" />
+          <Property Name="Location" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Suppliers">
+          <Key>
+            <PropertyRef Name="supplier_ID" />
+          </Key>
+          <Property Name="supplier_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplier_company_Name" Type="varchar" MaxLength="100" />
+          <Property Name="contact_Person" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Compatibi__car_I__5441852A">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="Compatibility" Type="Self.Compatibility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="car_ID" />
+            </Principal>
+            <Dependent Role="Compatibility">
+              <PropertyRef Name="car_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Compatibi__part___5535A963">
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="1" />
+          <End Role="Compatibility" Type="Self.Compatibility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spare_Parts">
+              <PropertyRef Name="part_ID" />
+            </Principal>
+            <Dependent Role="Compatibility">
+              <PropertyRef Name="part_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deliverie__part___4AB81AF0">
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="0..1" />
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spare_Parts">
+              <PropertyRef Name="part_ID" />
+            </Principal>
+            <Dependent Role="Deliveries">
+              <PropertyRef Name="part_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deliverie__suppl__49C3F6B7">
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="supplier_ID" />
+            </Principal>
+            <Dependent Role="Deliveries">
+              <PropertyRef Name="supplier_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Spare_Par__Categ__3F466844">
+          <End Role="Part_Categories" Type="Self.Part_Categories" Multiplicity="0..1" />
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part_Categories">
+              <PropertyRef Name="category_ID" />
+            </Principal>
+            <Dependent Role="Spare_Parts">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock_Ava__part___5070F446">
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="0..1" />
+          <End Role="Stock_Availability" Type="Self.Stock_Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spare_Parts">
+              <PropertyRef Name="part_ID" />
+            </Principal>
+            <Dependent Role="Stock_Availability">
+              <PropertyRef Name="part_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock_Ava__stora__5165187F">
+          <End Role="Storages" Type="Self.Storages" Multiplicity="0..1" />
+          <End Role="Stock_Availability" Type="Self.Stock_Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storages">
+              <PropertyRef Name="storage_ID" />
+            </Principal>
+            <Dependent Role="Stock_Availability">
+              <PropertyRef Name="storage_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CarSpareBaseModelContainer">
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Compatibility" EntityType="Self.Compatibility" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deliveries" EntityType="Self.Deliveries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Part_Categories" EntityType="Self.Part_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Spare_Parts" EntityType="Self.Spare_Parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock_Availability" EntityType="Self.Stock_Availability" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Storages" EntityType="Self.Storages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Suppliers" EntityType="Self.Suppliers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Compatibi__car_I__5441852A" Association="Self.FK__Compatibi__car_I__5441852A">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Compatibility" EntitySet="Compatibility" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Compatibi__part___5535A963" Association="Self.FK__Compatibi__part___5535A963">
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+            <End Role="Compatibility" EntitySet="Compatibility" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deliverie__part___4AB81AF0" Association="Self.FK__Deliverie__part___4AB81AF0">
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+            <End Role="Deliveries" EntitySet="Deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deliverie__suppl__49C3F6B7" Association="Self.FK__Deliverie__suppl__49C3F6B7">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Deliveries" EntitySet="Deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Spare_Par__Categ__3F466844" Association="Self.FK__Spare_Par__Categ__3F466844">
+            <End Role="Part_Categories" EntitySet="Part_Categories" />
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock_Ava__part___5070F446" Association="Self.FK__Stock_Ava__part___5070F446">
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+            <End Role="Stock_Availability" EntitySet="Stock_Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock_Ava__stora__5165187F" Association="Self.FK__Stock_Ava__stora__5165187F">
+            <End Role="Storages" EntitySet="Storages" />
+            <End Role="Stock_Availability" EntitySet="Stock_Availability" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarSpareBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="car_ID" />
+          </Key>
+          <Property Name="car_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="make" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="yearCreation" Type="DateTime" Precision="0" />
+          <Property Name="engine" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="transmission" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="body_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="color" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Spare_Parts" Relationship="Self.Compatibility" FromRole="Cars" ToRole="Spare_Parts" />
+        </EntityType>
+        <EntityType Name="Deliveries">
+          <Key>
+            <PropertyRef Name="delivery_ID" />
+          </Key>
+          <Property Name="delivery_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplier_ID" Type="Int32" />
+          <Property Name="part_ID" Type="Int32" />
+          <Property Name="dateDeliveliry" Type="DateTime" Precision="0" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="unit_Price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Spare_Parts" Relationship="Self.FK__Deliverie__part___4AB81AF0" FromRole="Deliveries" ToRole="Spare_Parts" />
+          <NavigationProperty Name="Suppliers" Relationship="Self.FK__Deliverie__suppl__49C3F6B7" FromRole="Deliveries" ToRole="Suppliers" />
+        </EntityType>
+        <EntityType Name="Part_Categories">
+          <Key>
+            <PropertyRef Name="category_ID" />
+          </Key>
+          <Property Name="category_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="categoryDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Spare_Parts" Relationship="Self.FK__Spare_Par__Categ__3F466844" FromRole="Part_Categories" ToRole="Spare_Parts" />
+        </EntityType>
+        <EntityType Name="Spare_Parts">
+          <Key>
+            <PropertyRef Name="part_ID" />
+          </Key>
+          <Property Name="part_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_ID" Type="Int32" />
+          <Property Name="partName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="partDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="manufacturer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="warranty_Months" Type="Int32" />
+          <NavigationProperty Name="Deliveries" Relationship="Self.FK__Deliverie__part___4AB81AF0" FromRole="Spare_Parts" ToRole="Deliveries" />
+          <NavigationProperty Name="Part_Categories" Relationship="Self.FK__Spare_Par__Categ__3F466844" FromRole="Spare_Parts" ToRole="Part_Categories" />
+          <NavigationProperty Name="Stock_Availability" Relationship="Self.FK__Stock_Ava__part___5070F446" FromRole="Spare_Parts" ToRole="Stock_Availability" />
+          <NavigationProperty Name="Cars" Relationship="Self.Compatibility" FromRole="Spare_Parts" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Stock_Availability">
+          <Key>
+            <PropertyRef Name="Stock_ID" />
+          </Key>
+          <Property Name="Stock_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="part_ID" Type="Int32" />
+          <Property Name="storage_ID" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="Spare_Parts" Relationship="Self.FK__Stock_Ava__part___5070F446" FromRole="Stock_Availability" ToRole="Spare_Parts" />
+          <NavigationProperty Name="Storages" Relationship="Self.FK__Stock_Ava__stora__5165187F" FromRole="Stock_Availability" ToRole="Storages" />
+        </EntityType>
+        <EntityType Name="Storages">
+          <Key>
+            <PropertyRef Name="storage_ID" />
+          </Key>
+          <Property Name="storage_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="houseName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Stock_Availability" Relationship="Self.FK__Stock_Ava__stora__5165187F" FromRole="Storages" ToRole="Stock_Availability" />
+        </EntityType>
+        <EntityType Name="Suppliers">
+          <Key>
+            <PropertyRef Name="supplier_ID" />
+          </Key>
+          <Property Name="supplier_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplier_company_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="contact_Person" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Deliveries" Relationship="Self.FK__Deliverie__suppl__49C3F6B7" FromRole="Suppliers" ToRole="Deliveries" />
+        </EntityType>
+        <Association Name="FK__Deliverie__part___4AB81AF0">
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="0..1" />
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spare_Parts">
+              <PropertyRef Name="part_ID" />
+            </Principal>
+            <Dependent Role="Deliveries">
+              <PropertyRef Name="part_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Deliverie__suppl__49C3F6B7">
+          <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="0..1" />
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="supplier_ID" />
+            </Principal>
+            <Dependent Role="Deliveries">
+              <PropertyRef Name="supplier_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Spare_Par__Categ__3F466844">
+          <End Role="Part_Categories" Type="Self.Part_Categories" Multiplicity="0..1" />
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part_Categories">
+              <PropertyRef Name="category_ID" />
+            </Principal>
+            <Dependent Role="Spare_Parts">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock_Ava__part___5070F446">
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="0..1" />
+          <End Role="Stock_Availability" Type="Self.Stock_Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spare_Parts">
+              <PropertyRef Name="part_ID" />
+            </Principal>
+            <Dependent Role="Stock_Availability">
+              <PropertyRef Name="part_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock_Ava__stora__5165187F">
+          <End Role="Storages" Type="Self.Storages" Multiplicity="0..1" />
+          <End Role="Stock_Availability" Type="Self.Stock_Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Storages">
+              <PropertyRef Name="storage_ID" />
+            </Principal>
+            <Dependent Role="Stock_Availability">
+              <PropertyRef Name="storage_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Compatibility">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <End Role="Spare_Parts" Type="Self.Spare_Parts" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CarSpareBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="Self.Cars" />
+          <EntitySet Name="Deliveries" EntityType="Self.Deliveries" />
+          <EntitySet Name="Part_Categories" EntityType="Self.Part_Categories" />
+          <EntitySet Name="Spare_Parts" EntityType="Self.Spare_Parts" />
+          <EntitySet Name="Stock_Availability" EntityType="Self.Stock_Availability" />
+          <EntitySet Name="Storages" EntityType="Self.Storages" />
+          <EntitySet Name="Suppliers" EntityType="Self.Suppliers" />
+          <AssociationSet Name="FK__Deliverie__part___4AB81AF0" Association="Self.FK__Deliverie__part___4AB81AF0">
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+            <End Role="Deliveries" EntitySet="Deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Deliverie__suppl__49C3F6B7" Association="Self.FK__Deliverie__suppl__49C3F6B7">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Deliveries" EntitySet="Deliveries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Spare_Par__Categ__3F466844" Association="Self.FK__Spare_Par__Categ__3F466844">
+            <End Role="Part_Categories" EntitySet="Part_Categories" />
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock_Ava__part___5070F446" Association="Self.FK__Stock_Ava__part___5070F446">
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+            <End Role="Stock_Availability" EntitySet="Stock_Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock_Ava__stora__5165187F" Association="Self.FK__Stock_Ava__stora__5165187F">
+            <End Role="Storages" EntitySet="Storages" />
+            <End Role="Stock_Availability" EntitySet="Stock_Availability" />
+          </AssociationSet>
+          <AssociationSet Name="Compatibility" Association="Self.Compatibility">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Spare_Parts" EntitySet="Spare_Parts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CarSpareBaseModelContainer" CdmEntityContainer="CarSpareBaseEntities">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Cars">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="car_ID" ColumnName="car_ID" />
+                <ScalarProperty Name="make" ColumnName="make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="yearCreation" ColumnName="yearCreation" />
+                <ScalarProperty Name="engine" ColumnName="engine" />
+                <ScalarProperty Name="transmission" ColumnName="transmission" />
+                <ScalarProperty Name="body_Type" ColumnName="body_Type" />
+                <ScalarProperty Name="color" ColumnName="color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deliveries">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Deliveries">
+              <MappingFragment StoreEntitySet="Deliveries">
+                <ScalarProperty Name="delivery_ID" ColumnName="delivery_ID" />
+                <ScalarProperty Name="supplier_ID" ColumnName="supplier_ID" />
+                <ScalarProperty Name="part_ID" ColumnName="part_ID" />
+                <ScalarProperty Name="dateDeliveliry" ColumnName="dateDeliveliry" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="unit_Price" ColumnName="unit_Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Part_Categories">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Part_Categories">
+              <MappingFragment StoreEntitySet="Part_Categories">
+                <ScalarProperty Name="category_ID" ColumnName="category_ID" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spare_Parts">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Spare_Parts">
+              <MappingFragment StoreEntitySet="Spare_Parts">
+                <ScalarProperty Name="part_ID" ColumnName="part_ID" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="partName" ColumnName="partName" />
+                <ScalarProperty Name="partDescription" ColumnName="partDescription" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+                <ScalarProperty Name="warranty_Months" ColumnName="warranty_Months" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock_Availability">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Stock_Availability">
+              <MappingFragment StoreEntitySet="Stock_Availability">
+                <ScalarProperty Name="Stock_ID" ColumnName="Stock_ID" />
+                <ScalarProperty Name="part_ID" ColumnName="part_ID" />
+                <ScalarProperty Name="storage_ID" ColumnName="storage_ID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Storages">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Storages">
+              <MappingFragment StoreEntitySet="Storages">
+                <ScalarProperty Name="storage_ID" ColumnName="storage_ID" />
+                <ScalarProperty Name="houseName" ColumnName="houseName" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="CarSpareBaseModel.Suppliers">
+              <MappingFragment StoreEntitySet="Suppliers">
+                <ScalarProperty Name="supplier_ID" ColumnName="supplier_ID" />
+                <ScalarProperty Name="supplier_company_Name" ColumnName="supplier_company_Name" />
+                <ScalarProperty Name="contact_Person" ColumnName="contact_Person" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Compatibility" TypeName="CarSpareBaseModel.Compatibility" StoreEntitySet="Compatibility">
+            <EndProperty Name="Cars">
+              <ScalarProperty Name="car_ID" ColumnName="car_ID" />
+            </EndProperty>
+            <EndProperty Name="Spare_Parts">
+              <ScalarProperty Name="part_ID" ColumnName="part_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
