@@ -37,7 +37,7 @@ namespace laba4
                         string.IsNullOrWhiteSpace(car.transmission) ||
                         string.IsNullOrWhiteSpace(car.body_Type))
                     {
-                        System.Windows.MessageBox.Show("Поля 'Марка', 'Модель', 'Двигатель', 'КПП', 'Кузов' не должны быть пустыми.");
+                        System.Windows.MessageBox.Show($"ID[{car.car_ID}] - поля не должны быть пустыми.");
                         return;
                     }
                     if (car.yearCreation.HasValue && car.yearCreation.Value.Date > DateTime.Now.Date)

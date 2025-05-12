@@ -9,7 +9,8 @@ namespace laba4.AdderWindows
     /// </summary>
     public partial class AddPartsWindow : FluentWindow
     {
-        public int? CategoryId => CategoryComboBox.SelectedValue as int?;
+        public int? CategoryId => CategoryComboBox.SelectedValue is int id ? (int?)id : null;
+
         public string PartName => PartNameBox.Text;
         public string PartDescription => PartDescriptionBox.Text;
         public decimal? Price => decimal.TryParse(PriceBox.Text, out var v) ? v : (decimal?)null;
@@ -34,6 +35,11 @@ namespace laba4.AdderWindows
                 if (Price < 0)
                 {
                     System.Windows.MessageBox.Show("Цена не может быть отрицательной.");
+                    return;
+                }
+                if (Price < 10)
+                {
+                    System.Windows.MessageBox.Show("Цена не может быть меньше 10.");
                     return;
                 }
                 if (Warranty.HasValue && Warranty < 0)

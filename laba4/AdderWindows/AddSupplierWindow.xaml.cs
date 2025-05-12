@@ -42,7 +42,7 @@ namespace laba4.AdderWindows
                     System.Windows.MessageBox.Show("Телефон должен содержать только цифры.");
                     return;
                 }
-                if (phone.Length < 12)
+                if (phone.Length < 11)
                 {
                     System.Windows.MessageBox.Show("Номер телефона должен содержать минимум 11 символов", "Предупреждение");
                     return;

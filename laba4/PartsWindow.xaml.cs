@@ -41,6 +41,11 @@ namespace laba4
                         System.Windows.MessageBox.Show("Цена не может быть отрицательной.");
                         return;
                     }
+                    if (part.price < 10)
+                    {
+                        System.Windows.MessageBox.Show("Цена не может быть меньше 10.");
+                        return;
+                    }
                     if (part.warranty_Months.HasValue && part.warranty_Months < 0)
                     {
                         System.Windows.MessageBox.Show("Гарантия не может быть отрицательной.");
@@ -75,6 +80,11 @@ namespace laba4
                 if (win.Price < 0)
                 {
                     System.Windows.MessageBox.Show("Цена не может быть отрицательной.");
+                    return;
+                }
+                if (win.Price < 10)
+                {
+                    System.Windows.MessageBox.Show("Цена не может быть меньше 10.");
                     return;
                 }
                 if (win.Warranty.HasValue && win.Warranty < 0)
